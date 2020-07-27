@@ -1,0 +1,137 @@
+<div class="content-i">
+    <!-- Start Menu -->
+    <div class="os-tabs-w mx-4">
+        <div class="os-tabs-controls">
+            <ul class="nav nav-tabs upper">
+                <li class="nav-item">
+                    <a aria-expanded="false" class="nav-link " href="#/shop-list"> Danh sách shop</a>
+                </li>
+                <li class="nav-item">
+                    <a aria-expanded="false" class="nav-link" href="#/create-shop"> Tạo mới shop </a>
+                </li>
+                <li class="nav-item">
+                    <router-link aria-expanded="true" class="nav-link"
+                        :to="{path: '/shop-detail', query: {id: $route.query.id, page: 1} }">Sản phẩm của shop
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link aria-expanded="false" class="nav-link" :to="{path: 'shop-category', query: {id: $route.query.id}}"> Quản lý danh mục </router-link>
+                </li>
+                <li class="nav-item">
+                    <a aria-expanded="true" class="nav-link active" data-toggle="tab">Danh sách bàn</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- End Menu -->
+
+    <!-- Tạo bàn mới -->
+    <div aria-labelledby="exampleModalLabel" class="modal fade show" style="padding-right: 16px; display: block;"
+        v-if="modal_create === true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tạo bàn mới</h5>
+                    <button aria-label="Close" class="close" @click="modal_create = false">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="">Nhập tên bàn</label>
+                            <input class="form-control" placeholder="Category Name" type="text" v-model="table_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Nhập số bàn</label>
+                            <input class="form-control" placeholder="Category Name" type="text" v-model="table_number">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer buttons-on-left">
+                    <button class="btn btn-success" @click="createNewTable()"> Xác nhận </button>
+                    <button class="btn btn-link" @click="modal_create = false"> Hủy </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upate danh mục  -->
+    <div aria-labelledby="exampleModalLabel" class="modal fade show" style="padding-right: 16px; display: block;"
+        v-if="modal_update === true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cập nhập thông tin bàn</h5>
+                    <button aria-label="Close" class="close" @click="modal_update = false">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="">Nhập tên bàn</label>
+                            <input class="form-control" placeholder="Category Name" type="text" v-model="table_info.table_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Nhập số bàn</label>
+                            <input class="form-control" placeholder="Category Name" type="text" v-model="table_info.table_number">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer buttons-on-left">
+                    <button class="btn btn-success" @click="updateTable()"> Xác nhận </button>
+                    <button class="btn btn-link" @click="modal_update = false"> Hủy </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-box">
+        <div class="element-wrapper">
+            <div class="element-box-tp">
+                <div class="element-box-tp">
+                    <div class="controls-above-table">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="form-header">Danh sách bàn của cửa hàng</h5>
+                            </div>
+                            <div class="col-sm-6 text-right pt-02" style="color: white;">
+                                <a class="btn btn-success" @click="modal_create = true">Tạo bàn mới</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-lg table-v2 table-striped">
+                            <thead>
+                                <tr>
+                                    <td class="text-center">Shop ID</td>
+                                    <td class="text-center">Tên bàn</td>
+                                    <td class="text-center">Số bàn</td>
+                                    <td class="text-center">Hành động</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in table_list">
+                                    <td class="text-center">{{item.shop}}</td>
+                                    <td class="text-center">{{item.table_name}}</td>
+                                    <td class="text-center">{{item.table_number}}</td>
+                                    <td class="text-center">
+                                        <a @click="isShowTableUpdate(item)" style="margin-right: 15px;"
+                                            data-toggle="tooltip" data-placement="top" title="Chỉnh sửa danh mục"><i
+                                                class="os-icon os-icon-ui-49"></i>
+                                        </a>
+                                        <a @click="removeTable(item)" style="color: red;" data-toggle="tooltip"
+                                            data-placement="top" title="Xóa danh mục"><i
+                                                class="os-icon os-icon-ui-15"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

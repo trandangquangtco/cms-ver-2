@@ -1,0 +1,67 @@
+<div class="content-i">
+    <div class="content-box">
+      <!--START - Control panel above projects-->
+      <div class="os-tabs-w mx-4">
+        <div class="os-tabs-controls">
+          <ul class="nav nav-tabs upper">
+            <li class="nav-item">
+              <a aria-expanded="true" class="nav-link active" > Danh sách game</a>
+            </li>
+            <li class="nav-item">
+              <a aria-expanded="false" class="nav-link" href="#/create-game"> Tạo mới game </a>
+            </li>
+            <!-- <li class="nav-item">
+                <a aria-expanded="false" class="nav-link"  href="#tab_sales"> payment</a>
+              </li> -->
+          </ul>
+        </div>
+      </div>
+      <!--END - Control panel above projects-->
+    
+      <!-----------------Start Product---------------->
+      <div class="row">
+        <div v-for="item in data" class="col-sm-2 col-xxxl-3 item-game" >
+          <a class="os-icon os-icon-ui-15 icon-delete" @click="removeGame(item.id)"></a>
+          <router-link :to="{ name: 'game-detail', query: { gameId: item.gameId, id: item.id }  }" >
+            <a class="block-game-container"> 
+              <div class="block-game-content">
+                <img class="img-game" src="img/background-game.jpeg">
+              </div>
+              <p class="name-game"> {{item.gameId}} </p>
+            </a>
+          </router-link>
+        </div>
+      </div>
+      <!--------------------End Product--------------->
+
+      <!-------------------- Bắt đầu phân trang --------------->
+      <div class="row" v-if="countpage >1">
+        <div class="col-sm-12">
+        <div class="controls-below-table">
+          <div class="table-records-pages">
+              <ul class="nav" >
+                  <li>
+                      <a class="pointer" @click="dau"> Đầu</a>
+                  </li>
+                  <li>
+                      <a class="pointer" @click="pre"> << </a>
+                  </li>
+
+                  <li  v-for= "i in page"> <a v-if ="i === current" class="pointer activep" @click = "pageGamePlays(i)">{{i}}</a> <a v-else class="pointer" @click = "pageGamePlays(i)">{{i}}</a> </li>
+                  <li>
+                      <a class="pointer" @click = "next" > >> </a>
+                  </li>
+                  <li>
+                          <a class="pointer" @click="cuoi"> Cuối</a>
+                   </li>
+              </ul>
+          </div>
+        </div>
+        </div>
+      </div>
+      <!-------------------- Kết thúc phân trang --------------->
+
+
+      <!-------------------- END - Chat Popup Box  -------------------->
+    </div>
+  </div>

@@ -1,0 +1,326 @@
+<div class="content-i">
+  
+
+    <!-- Start Menu -->
+    <div class="os-tabs-w mx-4">
+      <div class="os-tabs-controls">
+        <ul class="nav nav-tabs upper">
+          <li class="nav-item">
+            <router-link aria-expanded="false" class="nav-link"
+              :to="{path: 'store-category', query: {store_id: $route.query.store_id,page: 1}}"> Quản lý danh mục </router-link>
+          </li>
+          <li class="nav-item">
+            <a aria-expanded="true" class="nav-link active" data-toggle="tab" href="#">Sản phẩm của Store</a>
+          </li>
+          <li class="nav-item">
+            <router-link aria-expanded="false" class="nav-link"
+            :to="{path: 'store-order', query: {store_id: $route.query.store_id,page: 1}}"> Danh sách đơn hàng </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link aria-expanded="false" class="nav-link"
+            :to="{path: 'store-merge', query: {store_id: $route.query.store_id}}"> Đồng bộ bên thứ ba </router-link>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- End Menu -->
+
+    <!-- Modal hiện chi tiết sản phẩm -->
+    <div class="modal-invoice" v-if="close === true">
+      <div class="content-box modal-info modal-scroll">
+        <div class="element-wrapper">
+          <button type="button" class="close" aria-label="Close" @click="close = false">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="element-box">
+            <h3 style="text-align: center; font-weight: bold;">CHI TIẾT SẢN PHẨM</h3>
+            <div class="row">
+              <div class="col-6">
+                <img v-bind:src="productItem.image" width="300">
+                <div class="row">
+                  <div class="col-3" v-for="item in productItem.images">
+                    <img v-bind:src="item" width="50px;">
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 product-details">
+                <p>Mã sản phẩm: {{productItem.product_code}}</p>
+                <p>Tên sản phẩm: {{productItem.product_name}}</p>
+                <p>Giá sản phẩm: {{productItem.product_price}} đ</p>
+                <p>Số lượng sản phẩm: {{productItem.product_quantity}}</p>
+                <p>Mô tả sản phẩm: {{productItem.product_description}}</p>
+                <p>Giá gốc: {{productItem.product_price}}</p>
+                <p>
+                  Màu sắc: <span v-for="item in productItem.colors"> {{item}}, </span>
+                </p>
+                <p>
+                  Size: <span v-for="item in productItem.sizes"> {{item}}, </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End modal hiện chi tiết sản phẩm -->
+
+    <!-- <h5 class="text-center" style="color: #009999;">ShopID: {{this.$route.query.store_id}}</h5> -->
+
+   
+
+    <div class="element-box">
+      <div class="row">
+        <div class="col-4">
+          <button type="button" class="btn btn-success" @click="isNewProduct()" data-toggle="tooltip">
+            <i class="os-icon os-icon-file-text padding-icon"></i>
+            Thêm sản phẩm
+          </button>
+        </div>
+        <div class="col-4"></div>    
+        <div class="col-4 text-center">
+          <div class="form-group">
+            <input type="search" name="search" 
+            id="search" class="form-control" placeholder="search" @keyup.13='search()'>
+            <div v-for="item in listProduct"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- -------Modal thêm sản phẩm--------- -->
+      <div aria-labelledby="exampleModalLabel" class="modal fade show create" style="padding-right: 16px; display: block;"
+      v-if="createnew === true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Tạo Store mới</h5>
+            <button aria-label="Close" class="close" @click="createnew=false">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form class="row">
+              <div class="form-group col-6 pl-0">
+                <label for="">Mã sản phẩm</label><input class="form-control" placeholder="Product's Name" type="text"
+                  name="code" id="code" v-model="productNew.product_code">
+              </div>
+              <div class="form-group col-6 pl-0">
+                <label for="">Tên sản phẩm</label><input class="form-control" placeholder="Product's Description"
+                  type="text" name="name" id="name" v-model="productNew.product_name">
+              </div>
+              <div class="form-group col-6 pl-0">
+                <label for="">Giá sản phẩm</label><input class="form-control" placeholder="Product's Price"
+                  type="text" name="price" id="price" v-model="productNew.product_price">
+              </div>
+              <div class="form-group col-6 pl-0">
+                <label for="">Danh mục</label>
+                <!-- <input class="form-control" placeholder="Product's Category"
+                  type="text" name="category" id="category" v-model="productNew.category_id"> -->
+                  <select class="form-control" v-model="productNew.category_id">
+                    <option v-for="item in categoryList" :value="item.category_id">{{item.category_name}}</option>
+                  </select>
+              </div>
+                <div class="col-6 pl-0">
+                  <div class="form-group">
+                    <label for="">Số lượng sản phẩm</label><input class="form-control" placeholder="Product Quantity"
+                      type="number" name="quantity" id="quantity" v-model="productNew.product_quantity">
+                  </div>
+                </div>
+                <div class="col-6 pl-0">
+                  <div class="form-group">
+                    <label for="">Mô tả sản phẩm</label><input class="form-control" placeholder="Describe" type="text" name="description"
+                      id="description" v-model="productNew.product_description">
+                  </div>
+                </div>
+                <div class="col-6 pl-0">
+                  <div class="form-group">
+                    <label for="">Màu sắc</label><input class="form-control" placeholder="Product Colors"
+                      type="text" name="colors" id="colors" v-model="productNew.colors">
+                  </div>
+                </div>
+                <div class="col-6 pl-0">
+                  <div class="form-group">
+                    <label for="">Size</label><input class="form-control" placeholder="Product Size"
+                      type="text" name="sizes" id="sizes" v-model="productNew.sizes">
+                  </div>
+                </div>
+                <div class="col-6 pl-0">
+                  <div class="form-group">
+                    <label for="">Hình ảnh</label><input class="form-control" placeholder="Product Image"
+                      type="text" name="image" id="image" v-model="productNew.image">
+                  </div>
+                </div>
+                <div class="col-6 pl-0">
+                  <div class="form-group">
+                    <label for="">Đã bán</label><input class="form-control" placeholder="Product Sold"
+                      type="text" name="sold" id="sold" v-model="productNew.sold">
+                  </div>
+                </div>
+                <div class="col-6 pl-0">
+                  <div class="form-group">
+                    <label for="">Đơn vị</label><input class="form-control" placeholder="Product Unit"
+                      type="text" name="product_unit" id="product_unit" v-model="productNew.product_unit">
+                  </div>
+                </div>
+                <div class="col-6 pl-0">
+                  <div class="form-group">
+                    <label for="">Discount</label><input class="form-control" placeholder="Product Discount"
+                      type="text" name="discount" id="discount" v-model="productNew.discount">
+                  </div>
+                </div>
+            </form>
+          </div>
+          <div class="modal-footer buttons-on-left">
+            <button class="btn btn-success" @click="createProduct()"> Xác nhận </button>
+            <button class="btn btn-link" @click="createnew = false"> Hủy </button>
+          </div>
+        </div>
+      </div>
+      </div>
+      <!-- -----------End thêm sản phẩm ----------------->
+
+      <!-- -------Bảng sản phẩm---------- -->
+      <h4 style="text-align: center;">Danh sách sản phẩm</h4>
+      <div class="table-responsive">
+        <table class="table table-lightborder">
+          <thead>
+            <tr>
+              <th class="text-center">
+                Mã sản phẩm
+              </th>
+              <th class="text-center">
+                Tên sản phẩm
+              </th>
+              <th class="text-center">
+                Giá sản phẩm
+              </th>
+              <th class="text-center">
+                Số lượng sản phẩm
+              </th>
+              <th class="text-center">
+                Danh mục sản phẩm
+              </th>
+              <th class="text-center">
+                Mô tả sản phẩm
+              </th>
+              <th class="text-center">
+                Hành động
+              </th>
+            </tr>
+          </thead>
+          <tbody class="table_body">
+            <tr id="mytr" v-for="item in listProduct">
+              <td class="text-center">
+                <p>{{item.product_code}}</p>
+              </td>
+              <td class="text-center special">
+                <a @click="getProductDetail(item)" class="pname">
+                  <p class="searchname">{{item.product_name}}</p>
+                </a>
+              </td>
+              <td class="text-center">
+                <p>{{item.product_price}}</p>
+              </td>
+              <td class="text-center">
+                <p>{{item.product_quantity}}</p>
+              </td>
+              <td class="text-center catname">
+                <p>{{item.category_name}}</p>
+              </td>
+              <td class="text-center">
+                <p>{{item.product_description}}</p>
+              </td>
+              <td class="text-center" style="font-size: 20px;">
+                <a @click="isProductUpdate(item)" style="margin-right: 15px;" data-toggle="tooltip"
+                  data-placement="top" title="Chỉnh sửa sản phẩm"><i class="os-icon os-icon-ui-49"></i></a>
+                <a @click="removeProduct(item)" style="color: red;" data-toggle="tooltip" data-placement="top"
+                  title="Xóa sản phẩm"><i class="os-icon os-icon-ui-15"></i></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- End bảng sản phẩm -->
+
+    <!-- -------Modal update Product----------->
+    <div aria-labelledby="exampleModalLabel" class="modal fade show" style="padding-right: 16px; display: block;"
+      v-if="update === true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Update Sản phẩm</h5>
+            <button aria-label="Close" class="close" @click="update=false">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="">Mã sản phẩm</label><input class="form-control" placeholder="Product's Code" type="text"
+                  name="code" id="code" v-model="productShow.product_code">
+              </div>
+              <div class="form-group">
+                <label for="">Tên sản phẩm</label><input class="form-control" placeholder="Product's Name"
+                  type="text" name="name" id="name" v-model="productShow.product_name">
+              </div>
+              <div class="form-group">
+                <label for="">Giá sản phẩm</label><input class="form-control" placeholder="Product's Price"
+                  type="number" name="price" id="price" v-model="productShow.product_price">
+              </div>
+              <div class="form-group">
+                <label for="">Danh mục</label><input class="form-control" placeholder="Product's Category"
+                  type="text" name="category" id="category" v-model="productShow.product_category">
+              </div>
+              <div class="row">
+                <div class="col-6 pl-0">
+                  <div class="form-group">
+                    <label for="">Số lượng sản phẩm</label><input class="form-control" placeholder="Product Quantity"
+                      type="number" name="quantity" id="quantity" v-model="productShow.product_quantity">
+                  </div>
+                </div>
+                <div class="col-6 pl-0">
+                  <div class="form-group">
+                    <label for="">Mô tả sản phẩm</label><input class="form-control" placeholder="Describe" type="text" name="description"
+                      id="description" v-model="productShow.product_description">
+                  </div>
+                </div>
+                <div class="col-6 pl-0">
+                  <div class="form-group">
+                    <label for="">Màu sắc</label><input class="form-control" placeholder="Product Quantity"
+                      type="text" name="colors" id="colors" v-model="productShow.colors">
+                  </div>
+                </div>
+                <div class="col-6 pl-0">
+                  <div class="form-group">
+                    <label for="">Size</label><input class="form-control" placeholder="Product Quantity"
+                      type="text" name="sizes" id="sizes" v-model="productShow.sizes">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer buttons-on-left">
+            <button class="btn btn-success" @click="updateProduct()"> Xác nhận </button>
+            <button class="btn btn-link" @click="update = false"> Hủy </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- -----------End Modal Product---------->
+    <div class="controls-below-table">
+      <div class="table-records-info">
+      </div>
+      <div class="table-records-pages">
+        <ul>
+          <li>
+            <a @click="previousPage()">Previous</a>
+          </li>
+          <li>
+            <a @click="nextPage()">Next</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  
+
+</div>

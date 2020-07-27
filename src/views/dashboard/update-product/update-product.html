@@ -1,0 +1,82 @@
+<div class="content-i">
+    <div class="content-box">
+        <!--START - Control panel above projects-->
+        <div class="os-tabs-w mx-4">
+            <div class="os-tabs-controls">
+                <ul class="nav nav-tabs upper">
+                    <li class="nav-item">
+                        <a aria-expanded="false" class="nav-link " href="#/shop-list"> Danh sách shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a aria-expanded="false" class="nav-link" href="#/create-shop"> Tạo mới shop </a>
+                    </li>
+                    <li class="nav-item">
+                        <a aria-expanded="true" class="nav-link active" data-toggle="tab" href="#">
+                            Update thông tin sản phẩm
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--END - Control panel above projects-->
+
+        <!-- Create game -->
+        <div class="content-box">
+            <div class="row">
+                <div class="col-sm-7" style="margin: auto;">
+                    <div class="element-wrapper">
+                        <div class="element-box">
+                            <!--Form-->
+                            <div>
+                                <div class="element-info">
+                                    <div class="element-info-with-icon">
+                                        <div class="element-info-text">
+                                            <h5 class="element-inner-header">
+                                                Update thông tin sản phẩm
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Tên sản phẩm</label><input class="form-control"
+                                        placeholder="Product's Name" type="text" v-model = "Pname">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Mô tả sản phẩm</label><input class="form-control"
+                                        placeholder="Product's Description" type="text" v-model = "Pdescription">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Giá sản phẩm</label><input class="form-control"
+                                        placeholder="Product's Address" type="number"  v-model = "Pprice">
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 pl-0">
+                                        <div class="form-group">
+                                            <label for="">Số lượng sản phẩm</label><input class="form-control"
+                                                placeholder="Product's Quantity" type="number" v-model = "Pquantity">
+                                        </div>
+                                    </div>
+                                    <div class="col-6 pr-0">
+                                        <div class="form-group">
+                                            <label for="">Hình ảnh sản phẩm</label><input class="form-control"
+                                                placeholder="Product's Picture" type="text" v-model = "Ppiture">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="buttons-w">
+
+                                    <button class="btn btn-default btn-register" 
+                                    @click="updateProduct()"
+                                    style="width: 150px; height: 40px;; margin:auto; text-align: center; font-size: 15px; background-color: #047bf8; color: white; cursor: pointer;">
+                                        Update sản phẩm
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Create Game -->
+    </div>
+</div>

@@ -1,0 +1,766 @@
+<div class="content-i">
+    <div v-if="game.active !== 0" class="content-box">
+
+        <!-- Start Menu -->
+        <div class="os-tabs-w mx-4">
+            <div class="os-tabs-controls">
+                <ul class="nav nav-tabs upper">
+                    <li class="nav-item">
+                        <a aria-expanded="false" class="nav-link " href="#/"> Danh sách game</a>
+                    </li>
+                    <li class="nav-item">
+                        <a aria-expanded="false" class="nav-link" href="#/create-game"> Tạo mới game </a>
+                    </li>
+                    <li class="nav-item">
+                        <a aria-expanded="true" class="nav-link active" data-toggle="tab" href="#"> Chi tiết
+                            game</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- End Menu -->
+
+        <!-----------------Start update game---------------->
+        <!-----------------Start cài đặt---------------->
+        <div class="row" style="margin-top: 10px;">
+            <form v-if="hienThietLap === true" id="thietlap" class="thietlap">
+                <div class="row ">
+                    <!-- Cài đặt -->
+                    <div class="col-sm-12 ">
+                        <div class="row cart">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <h5 for=""> Cài đặt </h5>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label> <b> Tên game </b> </label>
+                                    <input class="form-control" placeholder="Nhập tên" type="text" v-model="game.gameId"
+                                        readonly required>
+                                </div>
+                                <!-- <div class="form-group">
+                                    <p> <b> Token : {{this.$userLogged.id}} </b></p>
+                                    <p> <b> ID Game : {{game.id}} </b></p>
+
+                                </div> -->
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label><b> Lượt quay tối đa </b> </label>
+                                    <input class="form-control" placeholder="" type="number"
+                                        v-model="game.luot_quay_toi_da" min="1" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label> <b>Lượt quay mặc định </b> </label>
+                                    <input class="form-control" placeholder="" type="number"
+                                        v-model="game.luot_quay_mac_dinh" min="1" max="game.luot_quay_toi_da" required>
+                                    <p v-if="Number(game.luot_quay_mac_dinh)> Number(game.luot_quay_toi_da)"
+                                        class="error">lượt quay mặc định không được lớn hơn lượt quay tối đa</p>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="red"> <b> Token </b></label>
+                                    <p> <b> {{this.$userLogged.user.id}} </b></p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="red"><b>ID Game</b></label>
+                                    <p> <b> {{game.id}} </b></p>
+                                </div>
+                            </div>
+
+                            <!--  bắt đầu loại vòng quay -->
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label><b> Loại vòng quay </b> </label>
+                                    <select class="browser-default custom-select" v-model="game.loai_vong_quay">
+                                        <option value="text">text</option>
+                                        <option value="image">image</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-2">
+                                <!-- <div class="form-group"> -->
+                                <label> <b> Trạng thái game </b> </label>
+                                <div>
+                                    <div @click="onOffGame"
+                                        style=" height: 100px; position: absolute; width: 100px; height: 36px; z-index: 100;">
+                                    </div>
+                                    <OnOff v-bind:checked="checked"></OnOff>
+                                </div>
+
+
+                                <!-- </div> -->
+                            </div>
+
+                            <div class="col-sm-6">
+                                <!-- <div class="form-group"> -->
+                                <label> <b> Voucher game: </b><span class="red">{{game.voucher_name}}</span></label>
+                                <div>
+                                    <div @click="onOffVoucher"
+                                        style=" height: 100px; position: absolute; width: 100px; height: 36px; z-index: 100;">
+                                    </div>
+                                    <OnOff v-bind:checked="voucherChecked"></OnOff>
+                                </div>
+
+
+                                <!-- </div> -->
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-----------------End cài đặt---------------->
+
+        <!-----------------start cài đặt---------------->
+        <div class="row-table cart" v-if="hienThietLap === true">
+
+            <!-- Bắt đầu thiết lập -->
+            <div class="col-sm-12">
+                <div class="element-wrapper">
+                    <!-------------------- START - Table with actions -------------------->
+                    <h4 style="text-align:center;color:blac"> Thiết lập </h4>
+                    <table class="table table-bordered table-responsive">
+                        <thead>
+                            <tr>
+                                <th class="text-center" rowspan="2">
+                                    Stt
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    Qùa tặng
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    Tỷ lệ
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    Số lượng
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    link ảnh
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    id Chatbot
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    Custom
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    xóa
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr v-for="(item,index) in game.thiet_lap">
+                                <td class="text-center">
+                                    {{index+1}}
+                                </td>
+                                <td class="text-center">
+                                    <input placeholder="Nhập vào quà tặng" type="text" v-model="item.text"
+                                        required="required">
+                                </td>
+                                <td class="text-center">
+                                    <input placeholder="Nhập vào tỷ lệ" type="number" v-model="item.ty_le" min="0">
+                                </td>
+                                <td class="text-center">
+                                    <input placeholder="Nhập vào số lượng" type="number" v-model="item.so_luong"
+                                        min="0">
+                                </td>
+                                <td class="text-center">
+                                    <input placeholder="Nhập vào link ảnh" type="text" v-model="item.image">
+                                </td>
+                                <td class="text-center">
+                                    <input placeholder="Nhập vào id chatbot" type="text" v-model="item.flow">
+                                </td>
+                                <td class="text-center">
+                                    <b class="pointer" @click="addCustomThietLap(index)">+</b>
+                                </td>
+                                <td class="text-center">
+                                    <a @click="xoaThietLap(index)" class="os-icon os-icon-ui-15"></a>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="col-sm-12">
+                        <a class="them-thiet-lap" @click="themThietLap">Thêm</a>
+                    </div>
+                    <!-------------------- END - Table with actions -------------------->
+                </div>
+            </div>
+            <!-- Kết thúc thiết lập -->
+
+            <!-- bắt đầu custom -->
+            <div class="col-sm-12 ">
+                <div class="row cart">
+                    <div class="col-sm-12">
+                        <h5>Custom</h5>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-1 text-center">STT</div>
+                            <div class="col-sm-5 text-center">Key</div>
+                            <!-- <div class="col-sm-1 text-center"></div> -->
+                            <!-- <div class="col-sm-4 text-center">Value </div> -->
+                            <div class="col-sm-5 text-center">Dạng </div>
+                            <div class="col-sm-1 text-center"> </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12" v-for=" (item, index) in game.custom ">
+                        <div class="row">
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <a class="form-control text-center stt">{{index+1}}</a>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Nhập vào value" type="text"
+                                        v-model="item.name">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-5">
+                                <div class="form-group">
+
+                                    <select class="browser-default custom-select" v-model="item.type">
+                                        <option value="String">String</option>
+                                        <option value="Number">Number</option>
+                                        <option value="Object">Object</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <div class="form-group text-center">
+                                        <a class="os-icon os-icon-ui-15" @click=deleteCustom(index)></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-11">
+                        <div class="form-group">
+                            <button class="form-control add" @click="addCustom">+</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- kết thúc custom-->
+
+            <!-- Bắt đầu button -->
+            <div class="col-sm-12">
+                <button class="btn btn-success capnhat" @click="update">Cập nhật </button>
+            </div>
+            <!-- Kết thúc button -->
+
+        </div>
+        <!----------------- End cài đặt ---------------->
+        <hr>
+        <!----------------- End update game ---------------->
+
+
+        <!-----------------Start button thiết lập ---------------->
+        <div class="row" style="margin-top: 10px;">
+            <div class="col-6">
+                <button class="btn btn-success float-left" @click="exportToExcel()">
+                    <i class="os-icon os-icon-file-text padding-icon"></i>
+                    Dowload dữ liệu hiện tại
+                </button>
+                <button class="btn btn-success ml-2 float-left" @click="exportAllToExcel()">
+                    <i class="os-icon os-icon-file-text padding-icon"></i>
+                    Dowload toàn bộ dữ liệu
+                </button>
+            </div>
+            <div class="col-6" v-if="is_staff === false">
+                <button class="btn btn-success float-right" v-on:click="hiddenform">
+                    <i class="icon-settings"></i>
+                    Thiết lập game
+                </button>
+            </div>
+        </div>
+        <!----------------- End button thiết lập ---------------->
+
+
+        <!-----------------Start thống kê danh sách người chơi ---------------->
+        <div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+            <div class="col-sm-4">
+                <div class="thongke thongkeactive" @click="pageUserPlays(0)">
+                    <a><i class="icon-people"></i>
+                        <p> Tổng người chơi </p>
+                        <span>{{count}}</span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="thongke" @click="pagethongKeDaNhanQua(0)">
+                    <a> <i class="icon-user-following"></i>
+                        <p> Đã nhận quà </p>
+                        <span>{{countDaNhan}}</span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="thongke" @click="pagethongKeChuaNhanQua(0)">
+                    <a> <i class="icon-user-unfollow"></i>
+                        <p> Chưa nhận quà </p>
+                        <span>{{countChuaNhan}}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!----------------- End thống kê danh sách người chơi ---------------->
+
+
+
+        <!-- Bảng thống kê -->
+        <div class="row row-table">
+            <div class="col-sm-12">
+                <div class="element-wrapper">
+
+                    <!-------------------- Bắt đầu tìm kiếm người chơi ---------------->
+                    <!-------------------- START - Controls Above Table -------------------->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="controls-above-table">
+                                <form class="form-inline justify-content-sm-end">
+                                    <button class="form-control form-control-sm rounded bright" @click="modal_staff = true" v-if="is_staff === false">
+                                        Tạo nhân viên
+                                    </button>
+
+                                    <button class="form-control form-control-sm rounded bright" @click="modal_voucher = true; voucher_input = true">
+                                        Tìm kiếm voucher mới
+                                    </button>
+
+                                    <button class="form-control form-control-sm rounded bright" @click="old_modal_voucher = true; old_voucher_input = true">
+                                        Tìm kiếm voucher cũ
+                                    </button>
+
+                                    <select class="form-control form-control-sm rounded bright" v-model="limit"
+                                        @change="onChange($event)">
+                                        <option v-for="option in optionsLimit" v-bind:value="option.value">
+                                            {{ option.text }}
+                                        </option>
+                                    </select>
+                                    <select class="form-control form-control-sm rounded bright" v-model="chiaSe">
+                                        <option v-for="option in optionsChiaSe" v-bind:value="option.value">
+                                            {{ option.text }}</option>
+
+                                    </select>
+                                    <select class="form-control form-control-sm rounded bright" v-model="nhanQua">
+                                        <option v-for="option in optionsNhanQua" v-bind:value="option.value">
+                                            {{ option.text }}</option>
+                                    </select>
+
+                                    <input class="form-control form-control-sm rounded bright" placeholder="Tìm kiếm"
+                                        v-model="search" type="text">
+                                    <button class="form-control form-control-sm rounded bright" @click="searchForm">Tìm
+                                        kiếm</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-------------------- END - Controls Above Table -------------------->
+                    <!-------------------- kết thúc Tìm kiếm người chơi ---------------->
+
+                    <!-------------------- START - Table with actions -------------------->
+                    <!-- <div class="table-responsive"> -->
+
+
+                    <table class="table table-bordered table-responsive">
+                        <thead>
+                            <tr>
+                                <th class="text-center" rowspan="2">
+                                    <a class="btn btn-sm btn-danger" @click="RemoveArrId">Delete</a>
+                                    <input type="checkbox" class="option-input" v-model="selectAll">
+                                    <!-- <a class="red pointer" @click ="selectAll">Xóa</a>  -->
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    UID
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    Tổng lượt quay
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    Đã quay
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    Lượt quay còn lại
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    Chia sẻ
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    Nhận quà
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    Thời gian quay
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    Quà tặng nhận
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    quà quay được
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    link chia sẻ
+                                </th>
+                                <th v-if="thongtin.length > 0" class="text-center" v-bind:colspan="thongtin.length">
+                                    Thông tin khách hàng {{thongtin.length}}
+                                </th>
+                                <th v-else> Thông tin khách hàng </th>
+                                <th class="text-center" rowspan="2">
+                                    Hành động
+                                </th>
+                            </tr>
+
+                            <th v-for="item in thongtin">{{item}}</th>
+
+                        </thead>
+                        <tbody v-if="loadInterWind === false">
+                            <tr v-for="(item,index) in listUser">
+                                <td class="text-center">
+                                    <!-- <input type="checkbox" name="Checkbox" id="check_1"> -->
+                                    <input type="checkbox" class="option-input" v-bind:id="item.id"
+                                        v-bind:value="item.id" v-model="arrID">
+                                </td>
+                                <td class="text-center">
+                                    {{item.uid}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.tong_luot_quay}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.da_quay}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.luot_quay_con_lai}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.chia_se}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.nhan_qua}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.updatedAt}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.thong_tin_qua_tang}}
+                                </td>
+                                <td class="text-center">
+                                    {{item.qua_tang_luu_tap}}
+                                </td>
+                                <td class="text-center">
+                                    <!-- {{item.chia_se}} -->
+                                </td>
+
+                                <td v-if="thongtin.length === 0" class="text-center">
+                                </td>
+                                <td v-else v-for="index in thongtin" class="text-center">
+                                    <p v-if="item.thong_tin_khach_hang">{{item.thong_tin_khach_hang[index]}}</p>
+                                    <p v-else></p>
+                                </td>
+                                <td class="text-cexnter">
+                                    <a class="danger" @click="removeUserByID(item.id)"><i
+                                            class="os-icon os-icon-ui-15"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                        <div v-else class="row">
+                            <div class="col-sm-12" style="text-align: center;">
+                                <Interwind></Interwind>
+                            </div>
+
+                        </div>
+
+
+                    </table>
+                    <!-- </div> -->
+                    <!--------------------  END - Table with actions  -------------------->
+                    <!--------------------  START - Controls below table  ------------------  -->
+                    <div class="controls-below-table">
+                        <div class="table-records-info">
+
+                        </div>
+                        <div class="table-records-pages">
+                            <ul class="nav" v-if="status == null">
+                                <li>
+                                    <a class="pointer" @click="dau"> Đầu</a>
+                                </li>
+                                <li>
+                                    <a class="pointer" @click="pre">
+                                        << </a> </li> <li v-for="i in page"> <a v-if="i === current"
+                                                class="pointer activep" @click="pageUserPlays(i)">{{i}}</a> <a v-else
+                                                class="pointer" @click="pageUserPlays(i)">{{i}}</a> </li>
+                                <li>
+                                    <a class="pointer" @click="next"> >> </a>
+                                </li>
+                                <li>
+                                    <a class="pointer" @click="cuoi"> Cuối</a>
+                                </li>
+                            </ul>
+
+                            <!-- Phân trang thống kê đã nhận quà -->
+                            <ul class="nav" v-if="status === 1">
+                                <li>
+                                    <a class="pointer" @click="dau"> Đầu</a>
+                                </li>
+                                <li>
+                                    <a class="pointer" @click="pre">
+                                        << </a> </li> <li v-for="i in page"> <a class="pointer activep"
+                                                v-if="i === current" @click="pagethongKeDaNhanQua(i)">{{i}}</a> <a
+                                                v-else class="pointer" @click="pagethongKeDaNhanQua(i)">{{i}}</a> </li>
+                                <li>
+                                    <a class="pointer" @click="next"> >> </a>
+                                </li>
+                                <li>
+                                    <a class="pointer" @click="cuoi"> Cuối</a>
+                                </li>
+                            </ul>
+
+                            <!-- Phân trang thống kê chưa nhận quà -->
+                            <ul class="nav" v-if="status === 0">
+                                <li>
+                                    <a class="pointer" @click="dau"> Đầu</a>
+                                </li>
+                                <li>
+                                    <a class="pointer" @click="pre">
+                                        << </a> </li> <li v-for="i in page"> <a class="pointer activep"
+                                                v-if="i === current" @click="pagethongKeChuaNhanQua(i)">{{i}}</a> <a
+                                                class="pointer" v-else @click="pagethongKeChuaNhanQua(i)">{{i}}</a>
+                                </li>
+                                <li>
+                                    <a class="pointer" @click="next"> >> </a>
+                                </li>
+                                <li>
+                                    <a class="pointer" @click="cuoi"> Cuối</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--------------------  END - Controls below table -------------------->
+                </div>
+            </div>
+        </div>
+
+        <!-- bắt đầu modal custom trong thiết lập -->
+        <div class="modal-x" v-if="closeModal === true">
+            <div class="content-box">
+                <div class="element-wrapper">
+                    <div class="element-box">
+                        <div class="row">
+                            <div class="col-sm-12  text-center">
+                                <h4>Thêm giá trị trong custom</h4>
+                            </div>
+                        </div>
+
+                        <div class="row" v-for="item in game.custom">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <a class="form-control text-center stt"> {{item.name}}</a>
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="form-group">
+                                    <input class="form-control" v-bind:type="item.type"
+                                        v-model=" game.thiet_lap[indexThietLap].custom[item.name]">
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    {{item.type}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <button class="btn btn-success float-right" @click="saveCustomThietLap">ok</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- kết thúc modal custom trong thiết lập -->
+    </div>
+
+    <div v-else class="content-i">
+        <div class="content-box">
+            <div class="big-error-w" style="height: 250px; min-height: 220px;">
+                <h4>
+                    NHẬP CODE KÍCH HOẠT GAME
+                </h4>
+                <form>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <input class="form-control" placeholder="Nhập code kích hoạt game" type="text"
+                                v-model="code" required>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" style="margin-top: 15px;" @click="activeGame"> Active </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div aria-labelledby="exampleModalLabel" class="modal fade show" style="padding-right: 16px; display: block;"
+        v-if="modal_voucher === true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tìm kiếm voucher mới</h5>
+                    <button aria-label="Close" class="close" @click="modal_voucher = false, voucher_id= ''">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" v-if="voucher_input === true">
+                        <div class="col-9">
+                            <div class="form-group" >
+                                <label for="">Nhập mã voucher</label>
+                                <input class="form-control" placeholder="Nhập voucher" 
+                                type="text" name="name" id="name" v-model = "voucher_id" v-on:keyup.enter="searchVoucher()">
+                            </div>
+                        </div>
+                        <div class="col-3" style="margin-top: 28px;">
+                            <button class="btn btn-primary" @click="searchVoucher()">
+                                Tìm voucher
+                            </button>
+                        </div>
+                    </div>
+                    <div v-if="voucher_input === false">
+                        <div style="text-align: center;">
+                            <h4>Danh sách voucher</h4>
+                        </div>
+                        <div class="row" v-for="item in voucher_data.list_voucher" v-if="item.vocher_name !== 'matluot' " style="margin-bottom: 15px; margin-top: 15px;">
+                            <div class="col-9" style="background-color: beige;">
+                                <p>Mã voucher: {{item.voucher}}</p>
+                                <p>Trạng thái: <span v-if="item.status == 1">Đã sử dụng</span><span v-if="item.status == 0">Chưa sử dụng</span></p>
+                                <p>Tên voucher: {{item.vocher_name}}</p>
+                                <p v-if="item.time_use">Thời gian sử dụng: {{item.time_use}}</p>
+                            </div>
+                            <div class="col-3" v-if="item.status == 0">
+                                <button class="btn btn-success" style="margin-top: 30px" @click="updateVoucher(item)">
+                                    Sử dụng
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer buttons-on-left">
+                    <!-- <button class="btn btn-success" @click="updateShop()"> Xác nhận </button> -->
+                    <button class="btn btn-warning" @click="voucher_input = true, voucher_id= ''"> Tìm kiếm mã khác </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div aria-labelledby="exampleModalLabel" class="modal fade show" style="padding-right: 16px; display: block;"
+        v-if="old_modal_voucher === true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tìm kiếm voucher cũ</h5>
+                    <button aria-label="Close" class="close" @click="old_modal_voucher = false, old_voucher_id= ''">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" v-if="old_voucher_input === true">
+                        <div class="col-9">
+                            <div class="form-group" >
+                                <label for="">Nhập mã voucher</label>
+                                <input class="form-control" placeholder="Nhập voucher" 
+                                type="text" name="name" id="name" v-model = "old_voucher_id" v-on:keyup.enter="search_old_voucher()">
+                            </div>
+                        </div>
+                        <div class="col-3" style="margin-top: 28px;">
+                            <button class="btn btn-primary" @click="search_old_voucher()">
+                                Tìm voucher
+                            </button>
+                        </div>
+                    </div>
+                    <div v-if="old_voucher_input === false">
+                        <div style="text-align: center;">
+                            <h4>Mã voucher đã trúng</h4>
+                        </div>
+                        <div class="row" style="margin-bottom: 15px; margin-top: 15px;">
+                            <div class="col-9" style="background-color: beige;">
+                                <p>Mã voucher: {{old_voucher_data.voucher}}</p>
+                                <p>Trạng thái: <span v-if="old_voucher_data.nhan_qua == 1">Đã sử dụng</span><span v-if="old_voucher_data.nhan_qua == 0">Chưa sử dụng</span></p>
+                                <p>Tên voucher: {{old_voucher_data.qua_tang_luu_tap}}</p>
+                            </div>
+                            <div class="col-3" v-if="old_voucher_data.nhan_qua == 0">
+                                <button class="btn btn-success" style="margin-top: 30px" @click="updateOldVoucher(old_voucher_data)">
+                                    Sử dụng
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer buttons-on-left">
+                    <!-- <button class="btn btn-success" @click="updateShop()"> Xác nhận </button> -->
+                    <button class="btn btn-warning" @click="old_voucher_input = true, old_voucher_id= ''"> Tìm kiếm mã khác </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div aria-labelledby="exampleModalLabel" class="modal fade show" style="padding-right: 16px; display: block;"
+        v-if="modal_staff === true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tạo nhân viên quét voucher</h5>
+                    <button aria-label="Close" class="close" @click="modal_staff = false">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group" >
+                        <label for="">Username</label>
+                        <input class="form-control" placeholder="Username" 
+                        type="text" name="name" id="name" v-model = "staff_username">
+                    </div>
+                    <div class="form-group" >
+                        <label for="">Password</label>
+                        <input class="form-control" placeholder="Password" 
+                        type="password" name="name" id="name" v-model = "staff_password">
+                    </div>
+                    
+                </div>
+                <div class="modal-footer buttons-on-left">
+                    <button class="btn btn-success" @click="create_new_staff()"> Xác nhận </button>
+                    <button class="btn btn-warning" @click="modal_staff = false"> Hủy </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

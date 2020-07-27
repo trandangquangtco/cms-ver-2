@@ -1,0 +1,56 @@
+<div class="content-i">
+    
+    
+    <div class="element-wrapper">
+        <div class="element-box">
+        <div class="element-info">
+            <div class="element-info-with-icon">
+              <div class="element-info-icon">
+                <div class="os-icon os-icon-wallet-loaded"></div>
+              </div>
+              <div class="element-info-text">
+                <h5 class="element-inner-header">
+                  Tài khoản
+                </h5>
+              </div>
+            </div>
+            
+          </div>
+          <div class="col-sm-12 ">
+            <div class="row cart"  >
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>value </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>id</td>
+                    <td>{{this.$userLogged.user.id}}</td>
+                  </tr>
+                  <tr>
+                    <td>username</td>
+                    <td>{{this.$userLogged.user.username}}</td>
+                  </tr>
+                  <tr>
+                    <td>email</td>
+                    <td> {{this.$userLogged.user.email}} </td>
+                  </tr>
+                  <tr>
+                    <td>role</td>
+                    <td v-if="this.$userLogged.role">{{this.$userLogged.user.role}}</td>
+                    <td v-else> user</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+      </div>
+        </div>
+       
+      </div>
+
+     
+
+</div>

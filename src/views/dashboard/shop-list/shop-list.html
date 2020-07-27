@@ -1,0 +1,101 @@
+<div class="content-i">
+  <div class="content-box">
+    <!--START - Control panel above projects-->
+    <div class="os-tabs-w mx-4">
+      <div class="os-tabs-controls">
+        <ul class="nav nav-tabs upper">
+          <li class="nav-item">
+            <a aria-expanded="true" class="nav-link active"> Danh sách shop</a>
+          </li>
+          <li class="nav-item">
+            <a aria-expanded="false" class="nav-link" href="#/create-shop"> Tạo mới shop </a>
+          </li>
+          <!-- <li class="nav-item">
+                <a aria-expanded="false" class="nav-link"  href="#tab_sales"> payment</a>
+              </li> -->
+        </ul>
+      </div>
+    </div>
+    <!--END - Control panel above projects-->
+
+    <!-----------------Start Product---------------->
+    <div class="row">
+      <div class="col-sm-2 item-game" v-for="item in getListShop">
+        <a @click="isShowUpdate(item)" data-toggle="tooltip" data-placement="top"
+          title="Chỉnh sửa thông tin shop">
+          <i class="os-icon os-icon-ui-49"></i>
+        </a>
+        <a class="os-icon os-icon-ui-15 icon-delete" @click="removeShop(item.id)"></a>
+        <router-link :to="{ name: 'shop-detail', query: {id: item.id, page:1}}">
+          <a class="block-game-container">
+            <div class="block-game-content">
+              <img class="img-game" src="https://i.pinimg.com/originals/59/e9/14/59e914ffca408830573ef11a6528030c.jpg">
+            </div>
+            <p class="name-game"> {{item.shopName}} </p>
+          </a>
+        </router-link>
+      </div>
+
+    </div>
+    <!--------------------End Product--------------->
+
+    <div aria-labelledby="exampleModalLabel" class="modal fade show" style="padding-right: 16px; display: block;"
+        v-if="modal === true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cập nhập thông tin shop</h5>
+                    <button aria-label="Close" class="close" @click="modal = false">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="">Tên cửa hàng</label><input class="form-control"
+                                placeholder="Shop's Name" type="text" name="name" id="name"
+                                v-model="shop.shopName">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Mô tả cửa hàng</label><input class="form-control"
+                                placeholder="Shop's Description" type="text" name="description" id="description"
+                                v-model="shop.shopDescription">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Địa chỉ cửa hàng</label><input class="form-control"
+                                placeholder="Shop's Address" type="text" name="address" id="address"
+                                v-model="shop.shopAddress">
+                        </div>
+                        <div class="form-group">
+                            <label for="">URL SHOP</label><input class="form-control"
+                                placeholder="Shop's URL" type="text" name="address" id="address"
+                                v-model="shop.shopUrl">
+                        </div>
+                        <div class="row">
+                            <div class="col-6 pl-0">
+                                <div class="form-group">
+                                    <label for="">Số điện thoại</label><input class="form-control"
+                                        placeholder="Phone Number" type="text" name="address" id="address"
+                                        v-model="shop.shopPhone">
+                                </div>
+                            </div>
+                            <div class="col-6 pr-0">
+                                <div class="form-group">
+                                    <label for="">Email</label><input class="form-control" placeholder="Email"
+                                        type="text" name="email" id="email" v-model="shop.shopEmail">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer buttons-on-left">
+                    <button class="btn btn-success" @click="updateShop()"> Xác nhận </button>
+                    <button class="btn btn-link" @click="modal = false"> Hủy </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-------------------- END - Chat Popup Box  -------------------->
+  </div>
+</div>

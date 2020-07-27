@@ -1,0 +1,221 @@
+ul {
+    li {
+        margin-bottom: 0px !important;
+        a {
+          
+            border: none !important;
+            
+            background-color: #f2f4f8 !important;
+        }
+    }
+}
+
+
+td {
+background: #fff;
+
+}
+.layout-w {
+min-height: -webkit-fill-available;
+}
+
+.form-control {
+border-radius: 0;
+}
+
+
+.thongke {
+
+height: 100%;
+min-height: 52px;
+margin: 5px;
+background: linear-gradient(45deg, #e8451f, #e8451f9e);
+color: #fff;
+font-size: 16px
+}
+
+.thongke a {
+display: block;
+height: 100%;
+cursor: pointer;
+text-transform: uppercase;
+text-align: center;
+color: #fff;
+text-decoration: none;
+
+}
+
+/* .thongke a :hover {
+background: linear-gradient(45deg,#2f80e3,#6dc0fe);
+} */
+.thongke i {
+text-align: center;
+display: inline-block;
+font-size: 19px;
+margin-top: 13px;
+
+}
+
+.thongke:hover {
+background: linear-gradient(45deg,  #e8451f, #e8451f);
+}
+.thongkeactive {
+background: linear-gradient(45deg,  #e8451f, #e8451f);
+}
+.thongke p {
+margin: 0;
+
+}
+
+// .thietlap {
+//     // position: relative;
+//     visibility: hidden;
+//     opacity: 0;
+//     max-height: 0px;
+//     transition: max-height 0.5s, opacity 0.5s, visibility 0.5s linear;
+// }
+// .hien {
+//     visibility: visible;
+//     opacity: 1;
+//    // height: unset;
+//    max-height: inherit;
+//     transition: visibility 0s, opacity 0.3s, max-height 0.6s linear;
+    
+// }
+
+
+.content {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.tongsearch {
+width: 100%;
+height: 80%;
+display: table;
+/* background: #ccddcc; */
+}  
+.tongsearch p {
+text-align: center;
+vertical-align: middle;
+display: table-cell;
+}
+.page-link {
+padding: .5rem 0.3rem;
+}
+
+.row-table {
+    margin-top: 20px;
+    font-size: 17px !important;
+}
+
+.pointer {
+    cursor: pointer;
+    color: blue !important;
+    font-size: 14px;
+}
+.activep {
+    color: red !important;
+}
+
+.modal-x .content-box .element-wrapper .element-box {
+    position: fixed;
+    width: 80%;
+    margin-top: -6%;
+}
+
+/* --- Bắt đầu check box -- */
+
+
+@keyframes click-wave {
+    0% {
+      height: 40px;
+      width: 40px;
+      opacity: 0.35;
+      position: relative;
+    }
+    100% {
+      height: 200px;
+      width: 200px;
+      margin-left: -80px;
+      margin-top: -80px;
+      opacity: 0;
+    }
+  }
+  
+  .option-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    position: relative;
+    top: 9.33333px;
+    right: 0;
+    bottom: 0;
+    left: 4px;
+    height: 20px;
+    width: 20px;
+    transition: all 0.15s ease-out 0s;
+    background: #cbd1d8;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 0.5rem;
+    outline: none;
+    position: relative;
+    z-index: 1000;
+  }
+  .option-input:hover {
+    background: #9faab7;
+  }
+  .option-input:checked {
+    background: #b7c3c261;
+  }
+  .option-input:checked::before {
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    content: '✔';
+    display: inline-block;
+    font-size: 10.66667px;
+    text-align: center;
+    line-height: 20px;
+  }
+  .option-input:checked::after {
+    -webkit-animation: click-wave 0.65s;
+    -moz-animation: click-wave 0.65s;
+    animation: click-wave 0.65s;
+    background: #b7c3c261;
+    content: '';
+    display: block;
+    position: relative;
+    z-index: 100;
+  }
+/* --- Kết thúc check box -- */
+  /*button cập nhật*/
+  .capnhat {
+    width: 150px; 
+    height: 40px; 
+    margin-left: 0%; 
+    text-align: center; 
+    font-size: 15px; 
+    color: white; 
+    margin-bottom: 3px;
+  }
+
+  .them-thiet-lap {
+    width: 100%;
+    display: block;
+    background: #ccc;
+    text-align: center;
+    cursor: pointer;
+}
+
+.padding-icon{
+  padding-bottom: 3px;
+}

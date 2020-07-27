@@ -1,0 +1,137 @@
+<div class="content-i">
+  <!-- Start Menu -->
+  <div class="os-tabs-w mx-4">
+    <div class="os-tabs-controls">
+      <ul class="nav nav-tabs upper">
+        <li class="nav-item">
+          <a aria-expanded="true" class="nav-link active" data-toggle="tab" href="#">Quản lý danh mục</a>
+        </li>
+        <li class="nav-item">
+          <router-link aria-expanded="false" class="nav-link"
+            :to="{path: 'store-detail', query: {store_id: $route.query.store_id, page: 1} }">Sản phẩm của Store</router-link>
+        </li>      
+        <li class="nav-item">
+          <router-link aria-expanded="false" class="nav-link"
+            :to="{path: 'store-order', query: {store_id: $route.query.store_id,page: 1}}"> Danh sách đơn hàng </router-link>
+        </li>
+        <li>
+          <router-link aria-expanded="false" class="nav-link"
+          :to="{path: 'store-merge', query: {store_id: $route.query.store_id,page: 1}}"> Đồng bộ bên thứ ba </router-link>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- End Menu -->
+
+  <!-- Tạo mới danh mục -->
+  <div aria-labelledby="exampleModalLabel" class="modal fade show" style="padding-right: 16px; display: block;"
+    v-if="modal_create === true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Tạo danh mục mới</h5>
+          <button aria-label="Close" class="close" @click="modal_create = false">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="">Nhập tên danh mục</label>
+              <input class="form-control" placeholder="Category Name" type="text" v-model="categoryNew.category_name">
+            </div>
+            <div class="form-group">
+              <label for="">Mô tả</label>
+              <input class="form-control" placeholder="Category Description" type="text" v-model="categoryNew.description">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer buttons-on-left">
+          <button class="btn btn-success" @click="createNewCategory()"> Xác nhận </button>
+          <button class="btn btn-link" @click="modal_create = false"> Hủy </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Update danh mục  -->
+  <div aria-labelledby="exampleModalLabel" class="modal fade show" style="padding-right: 16px; display: block;"
+    v-if="modal_update === true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Cập nhập tên danh mục</h5>
+          <button aria-label="Close" class="close" @click="modal_update = false">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="">Nhập tên danh mục</label>
+              <input class="form-control" placeholder="Category Name" type="text" v-model="category_name_update">
+            </div>
+            <div class="form-group">
+              <label for="">Mô tả</label>
+              <input class="form-control" placeholder="Category Name" type="text" v-model="description_update">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer buttons-on-left">
+          <button class="btn btn-success" @click="updateCategory()"> Xác nhận </button>
+          <button class="btn btn-link" @click="modal_update = false"> Hủy </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ---End Update---- -->
+
+  <!-- ----Hiện danh mục----- -->
+  <div class="content-box">
+    <div class="element-wrapper">
+      <div class="element-box-tp">
+        <div class="element-box-tp">
+          <div class="controls-above-table">
+            <div class="row">
+              <div class="col-sm-6">
+                <h5 class="form-header">Danh mục sản phẩm của shop</h5>
+              </div>
+              <div class="col-sm-6 text-right pt-02" style="color: white;">
+                <a class="btn btn-success" @click="modal_create = true">Tạo danh mục mới</a>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered table-lg table-v2 table-striped">
+              <thead>
+                <tr>
+                  <td class="text-center">Tên danh mục</td>
+                  <td class="text-center">Mô tả</td>
+                  <td class="text-center">Thời gian tạo</td>
+                  <td class="text-center">Thời gian cập nhập</td>
+                  <td class="text-center">Hành động</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in category_list">
+                  <td class="text-center">{{item.category_name}}</td>
+                  <td class="text-center">{{item.description}}</td>
+                  <td class="text-center">{{item.createdAt}}</td>
+                  <td class="text-center">{{item.updatedAt}}</td>
+                  <td class="text-center">
+                    <a @click="isShowCategoryUpdate(item)" style="margin-right: 15px;" data-toggle="tooltip"
+                      data-placement="top" title="Chỉnh sửa danh mục"><i class="os-icon os-icon-ui-49"></i>
+                    </a>
+                    <a @click="removeCategory(item.id)" style="color: red;" data-toggle="tooltip" data-placement="top"
+                      title="Xóa danh mục"><i class="os-icon os-icon-ui-15"></i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

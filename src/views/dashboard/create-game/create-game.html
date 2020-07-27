@@ -1,0 +1,260 @@
+<div class="content-i">
+    <div class="content-box">
+      <!--START - Control panel above projects-->
+      <div class="os-tabs-w mx-4">
+        <div class="os-tabs-controls">
+          <ul class="nav nav-tabs upper">
+            <li class="nav-item">
+              <a aria-expanded="true" class="nav-link" href="#/"> Danh sách game</a>
+            </li>
+            <li class="nav-item">
+              <a aria-expanded="false" class="nav-link active" > Tạo mới game </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!--END - Control panel above projects-->
+
+
+       <!-----------------Start cài đặt---------------->
+       <div class="row"  style="margin-top: 10px;">
+            <form >
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row cart">
+                              <div class="col-sm-12">
+                                      <div class="form-group">
+                                          <h5 for=""> Cài đặt </h5>
+                                          
+                                      </div>
+                              </div>
+                              <div class="col-sm-3">
+                                      <div class="form-group">
+                                          <label for=""> Tên game </label>
+                                          <input class="form-control" placeholder="Nhập tên" type="text" v-model="game.gameId" required>
+              
+                                      </div>
+                              </div>
+                                
+                              <div class="col-sm-3">
+                                  <div class="form-group">
+                                      <label for="">Lượt quay tối đa: </label>
+                                      <input class="form-control" placeholder="Nhập lượt quay tối đa" type="number"  min="1" v-model="game.luot_quay_toi_da" required>
+                                  </div>
+                              </div>
+                              <div class="col-sm-3">
+                                  <div class="form-group">
+                                      <label for="">Lượt quay mặc định </label>
+                                      <input class="form-control" placeholder="Nhập lượt quay mặc định" type="number"  v-model="game.luot_quay_mac_dinh" min="1" required>
+                                  </div>
+                              </div>
+                              <div class="col-sm-3">
+                                
+                                  <div class="form-group">
+                                      <label>Loại vòng quay </label>
+                                      <select class="browser-default custom-select" v-model="game.loai_vong_quay">
+                                            <option  v-for="option in optionsLoaiVongQuay"  v-bind:value="option.value">{{ option.text }}</option>
+                                          
+                                        </select>
+                                     
+                                  </div>
+                              </div>
+                              
+                            </div>
+                        </div>
+                    </div>
+                    
+            </form>
+        </div>
+        <!-----------------End cài đặt---------------->
+       
+        <!-----------------start cài đặt---------------->
+        <div class="row-table cart"  >
+             <!-- Bắt đầu thiết lập -->
+            <div class="col-sm-12">
+                <div class="element-wrapper">
+                   
+                    <!-------------------- START - Table with actions -------------------->
+                    <h4 style="text-align:center;color:blac"> Thiết lập  </h4>  
+                    <table class="table table-bordered table-responsive" >
+                        <thead >
+                            <tr>
+                                <th class="text-center" rowspan="2">
+                                        Stt
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    Qùa tặng
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    Tỷ lệ
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    Số lượng
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    link ảnh
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    id Chatbot
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    Custom
+                                </th>
+                                <th class="text-center" rowspan="2">
+                                    xóa
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <tr  v-for="(item,index) in game.thiet_lap" >
+                                <td class="text-center">
+                                    {{index}}
+                                </td>
+                                <td class="text-center">
+                                        <input  placeholder="Nhập vào quà tặng" type="text" v-model = "item.text" required="required" >
+                                </td>
+                                <td class="text-center">
+                                        <input  placeholder="Nhập vào tỷ lệ" type="number" v-model = "item.ty_le" min="0" >
+                                </td>
+                                <td class="text-center">
+                                        <input  placeholder="Nhập vào số lượng" type="number" v-model = "item.so_luong" min="0">
+                                </td>
+                                <td class="text-center">
+                                        <input  placeholder="Nhập vào link ảnh" type="text" v-model = "item.image" >
+                                </td>
+                                <td class="text-center">
+                                        <input  placeholder="Nhập vào id chatbot" type="text" v-model = "item.flow" >
+                                </td>
+                                <td class="text-center">
+                                        <a  class="pointer"  @click = "addCustomThietLap(index)"><i class="dripicons-plus"></i></a>  
+                                </td>
+                                <td class="text-center">
+                                        <a @click="xoaThietLap(index)" class="os-icon os-icon-ui-15" ></a>
+                                </td>
+                                
+                            </tr>
+                           
+                        </tbody> 
+                    </table>
+                    
+                    <div class="col-sm-12">
+                        <a class="them-thiet-lap" @click = "themThietLap">Thêm</a>
+                    </div>
+                    <!-------------------- END - Table with actions -------------------->
+                    
+                </div>
+            </div>
+            <!-- Kết thúc thiết lập -->
+
+            <!-- bắt đầu custom -->
+            <div class="col-sm-12 " >
+                    <div class="row cart" >
+                        <div class="col-sm-12"> <h5>Custom</h5></div>
+
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-1 text-center">STT</div>
+                                <div class="col-sm-5 text-center">Key</div>
+                                <!-- <div class="col-sm-1 text-center"></div> -->
+                                <!-- <div class="col-sm-4 text-center">Value </div> -->
+                                <div class="col-sm-5 text-center">Dạng </div>
+                                <div class="col-sm-1 text-center"> </div>
+                            </div>
+                        </div>
+                    
+                        <div class="col-sm-12" v-for = " (item, index) in game.custom ">
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <div class="form-group">
+                                        <a class="form-control text-center stt" >{{index+1}}</a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Nhập vào value" type="text"  v-model="item.name"  >
+                                    </div>
+                                </div>
+                                
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        
+                                            <select class="browser-default custom-select" v-model = "item.type">
+                                                <option value="String" >String</option>
+                                                <option value="Number">Number</option>
+                                                <option value="Object">Object</option>
+                                            </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-sm-1">
+                                    <div class="form-group">
+                                            <div class="form-group text-center">
+                                                <a  class="os-icon os-icon-ui-15" @click=deleteCustom(index)></a>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-11">
+                            <div class="form-group">
+                                <button  class="form-control add" @click = "addCustom"  >+</button>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <!-- kết thúc custom-->
+                
+            <!-- Bắt đầu button tạo mới game -->
+            <div class="col-sm-12">
+                <button class="btn btn-primary" @click="createGame" >Tạo mới game </button>
+            </div>
+            <!-- Kết thúc button tạo mới game -->
+            
+        </div>
+        <!----------------- End cài đặt ---------------->
+
+     
+      <!-------------------- END - Chat Popup Box -------------------->
+    </div>
+
+    <div class="modal-x" v-if = "closeModal === true" >
+            <div class="content-box">
+                    <div class="element-wrapper">
+                        <div class="element-box">
+                            <div class="row">
+                                <div class="col-sm-12  text-center">
+                                    <h4 >Thêm giá trị trong custom</h4>
+                                </div>
+                            </div>
+                    
+                            <div class="row" v-for ="item in game.custom">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <a class="form-control text-center stt"  > {{item.name}}</a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                        <div class="form-group">
+                                            <input class="form-control" v-bind:type = "item.type" v-model=" game.thiet_lap[indexThietLap].custom[item.name]" >
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                            <div class="form-group">
+                                               {{item.type}}
+                                            </div>
+                                        </div>
+                            </div>
+                            <div class="row" >
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <button class="btn btn-success float-right"  @click = "saveCustomThietLap">ok</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                         </div>
+                    </div>
+                </div>
+    </div>
+  </div>

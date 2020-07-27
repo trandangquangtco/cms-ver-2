@@ -1,0 +1,31 @@
+<!-- <div>
+    test dashboard
+    {{this.$userLogged}}
+    <GameList />
+</div> -->
+
+<div class="menu-position-side menu-side-left full-screen">
+    <div class="all-wrapper solid-bg-all">
+        
+      <div class="layout-w">      
+          <!-------------------- START - Mobile Menu -------------------->
+          <MenuMobile/>
+          <!--------------------  END - Mobile Menu     -------------------->
+
+          <!--------------------  START - Main Menu   -------------------->
+          <MainMenu/>
+          <!-------------------- END - Main Menu  -------------------->
+
+          <div class="content-w">
+            <!--------------------  START - Top Bar -------------------->
+            <TopBar title="dashboard"/>
+            <!--------------------  END - Top Bar -------------------->
+            <Loader v-if = "this.$store.state.$loading === true "/>
+            <div>
+                <router-view></router-view>
+            </div>
+           
+          </div>
+        </div>
+      </div>
+</div>

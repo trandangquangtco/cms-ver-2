@@ -1,0 +1,60 @@
+.layout-w {
+  min-height: -webkit-fill-available;
+}
+.content-w {
+  width: 80% ;
+}
+@media (max-width: 767px){
+  .content-w, .menu-side .content-w {
+    width: 100% !important;
+  }
+}
+.os-icon-ui-15 {
+  color: red !important;
+  cursor: pointer;
+}
+.error {
+  color: brown;
+}
+.red {
+  color: red !important;
+}
+.cart {
+  background: #fff;
+  margin: 10px 14px;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 20px 0 #e1e1e1;
+  }
+.pointer  {
+  cursor: pointer;
+}
+.row {
+  margin-left: unset !important;
+  margin-right: unset !important;
+}
+.link {
+  color: blue !important;
+}
+.modal-x {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  background: #0000005e;
+}
+.modal-x .content-box .element-wrapper {
+  margin: 12%;
+}
+
+.add {
+  font-size: 18px;
+  background: #cccccc !important;
+}
+
+.pointer:hover {
+  color: blue!important;
+  font-size: 14px;
+}

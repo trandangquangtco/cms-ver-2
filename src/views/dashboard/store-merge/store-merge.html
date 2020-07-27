@@ -1,0 +1,92 @@
+<div class="content-i">
+  <loading :active.sync="isLoading"
+  
+  :is-full-page="fullPage"></loading>
+    <div class="os-tabs-w mx-4">
+      <div class="os-tabs-controls">
+        <ul class="nav nav-tabs upper">
+          <li class="nav-item">
+            <router-link aria-expanded="false" class="nav-link"
+              :to="{path: 'store-category', query: {store_id: $route.query.store_id, page: 1}}"> Quản lý danh mục </router-link>
+            </li>
+          <li class="nav-item">
+            <router-link aria-expanded="true" class="nav-link" 
+            :to="{path: 'store-detail', query: {store_id: $route.query.store_id, page: 1} }" >Sản phẩm của Store</router-link>
+          </li>         
+          <li class="nav-item">
+            <router-link aria-expanded="false" class="nav-link"
+              :to="{path: 'store-order', query: {store_id: $route.query.store_id, page: 1}}"> Danh sách đơn hàng </router-link>
+          </li>
+          <li class="nav-item">
+            <a aria-expanded="false" class="nav-link" href="#"> Đồng bộ bên thứ ba</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+      <!-- -----------List Third Partner---------- -->
+    <div class="w3container">
+      <div class="table-responsive">`
+        <table class="table table-lightborder">
+          <thead>
+            <tr>
+              <th>Danh sách</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a @click="confirm" data-toggle="tooltip" data-placement="top">
+                <button class="btn btn-primary">Nhanh.VN</button>
+              </a></td>
+            </tr>
+            <!-- <tr>
+              <td><a @click="confirm" data-toggle="tooltip" data-placement="top">
+                <button class="btn btn-primary">Sapo</button>
+              </a></td>
+            </tr>
+            <tr>
+              <td><a @click="confirm" data-toggle="tooltip" data-placement="top">
+                <button class="btn btn-primary">Kiot Việt</button>
+              </a></td>
+            </tr>
+            <tr>
+              <td><a @click="confirm" data-toggle="tooltip" data-placement="top">
+                <button class="btn btn-primary">Shoppee</button>
+              </a></td>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- --------End List Third--------- -->
+    <div aria-labelledby="exampleModalLabel" class="modal fade show" style="padding-right: 16px; display: block;"
+    v-if="modal === true" @submit.prevent="submit">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+          <button aria-label="Close" class="close" @click="modal = false">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="">API username</label><input class="form-control" placeholder="Tài khoản" type="text"
+                name="name" id="api-username" v-model="login.apiUserName">
+            </div>
+            <div class="form-group">
+              <label for="">Secret Key</label><input class="form-control" placeholder="Mật khẩu"
+                type="password" name="password" id="secret-key" v-model="login.secretKey">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer buttons-on-left">
+          <button class="btn btn-success" @click.prevent="merge" > Xác nhận </button>
+          <button class="btn btn-link" @click="modal = false"> Hủy </button>
+        </div>
+      </div>
+    </div>
+    </div>
+  
+</div>

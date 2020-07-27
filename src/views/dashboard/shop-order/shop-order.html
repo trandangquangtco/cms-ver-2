@@ -1,0 +1,197 @@
+<div class="content-i">
+    <!-- Start Menu -->
+    <div class="os-tabs-w mx-4">
+        <div class="os-tabs-controls">
+            <ul class="nav nav-tabs upper">
+                <li class="nav-item">
+                    <a aria-expanded="false" class="nav-link " href="#/shop-list"> Danh sách shop</a>
+                </li>
+                <li class="nav-item">
+                    <a aria-expanded="false" class="nav-link" href="#/create-shop"> Tạo mới shop </a>
+                </li>
+                <li class="nav-item">
+                    <a aria-expanded="true" class="nav-link active" data-toggle="tab" href="#">Danh sách đặt hàng
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- End Menu -->
+
+    <!-- Hiện chi tiết đơn hàng -->
+
+    <div class="modal-invoice" v-if="close === true">
+        <div class="content-box modal-scroll">
+            <div class="element-wrapper">
+                <div class="element-box">
+                    <button type="button" class="close" aria-label="Close" @click="close = false">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="image-invoice">
+                        <img src="https://botup.io/images/logo/logo.png" alt="">
+                    </div>
+                    <h3 style="text-align: center;">BOTUP</h3>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5>Thông tin khách hàng</h5>
+                            <p>Name: {{orderItem.customerName}}</p>
+                            <p>Phone: {{orderItem.customerPhone}}</p>
+                            <p>Address: {{orderItem.customerAddress}}</p>
+                            <p>Email: {{orderItem.customerMail}}</p>
+                            <p>Note: {{orderItem.note}}</p>
+                        </div>
+                        <div class="col-sm-6 company-infor">
+                            <h5>Thông tin công ty</h5>
+                            <p>Name: BotUp</p>
+                            <p>Address: A4, BT1, ngõ 214 Nguyễn Xiển</p>
+                            <p>Website: <a href=""> https://botup.io/</a></p>
+                        </div>
+                    </div>
+                    <h5 class="text-center">Thông tin sản phẩm</h5>
+                    <div class="code">
+                        <table class="table table-striped">
+                            <tr>
+                                <td>Tên</td>
+                                <td>Giá</td>
+                                <td>Số lượng</td>
+                                <td>Size</td>
+                                <td>Màu sắc</td>
+                                <td>Hình ảnh</td>
+
+                            </tr>
+                            <tr v-for="item in orderItem.productInfor" class="modal-order">
+                                <td>
+                                    <p>{{item.productName}}</p>
+                                </td>
+                                <td>
+                                    <p>{{item.productPrice}}</p>
+                                </td>
+                                <td>
+                                    <p>{{item.productQuantity}}</p>
+                                </td>
+                                <td>
+                                    <p v-if="item.size">
+                                        {{item.size}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <p v-if="item.color">
+                                        {{item.color}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <div class="zoom">
+                                        <img v-bind:src="item.productPicture" width="50">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <h5 class="text-center">Tổng giá trị đơn hàng: {{orderItem.totalPrice}}</h5>
+                    <div class="button-modal">
+                        <button @click="acceptOrder(orderItem.id)" class="btn btn-success">Xác nhận đơn hàng</button>
+                        <button @click="unAcceptOrder(orderItem.id)" class="btn btn-success">Hủy đơn hàng</button>
+                        <button @click="removeOrder(orderItem.id)" class="btn btn-success">Xóa đơn hàng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Kết thúc chi tiết đơn hàng -->
+
+    <!-- <div class="element-wrapper"> -->
+    <div class="element-box">
+        <div class="row">
+            <div class="col-8 d-flex flex-row align-items-center">
+                <p class="m-0 padding-p">Đơn hàng hiển thị</p> 
+                <select class="form-control show-quantity" v-model="perpage" @change="onChange($event)">
+                    <option v-for="item in select" v-bind:value ="item.value">{{item.value}}</option>
+                </select>
+            </div>
+            <div class="col-4">
+                <button class="btn btn-success float-right" @click="exportToExcel()">
+                    <i class="os-icon os-icon-file-text padding-icon"></i>
+                    Tải xuống đơn hàng
+                </button>
+            </div>
+        </div>
+        
+        <h4 style="text-align: center;">Danh sách đơn hàng</h4>
+        <div class="table-responsive">
+            <!--------------------
+                        START - Basic Table
+                        -------------------->
+            <table class="table table-lightborder">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            Mã đơn hàng
+                        </th>
+                        <th class="text-center">
+                            Trạng thái đơn hàng
+                        </th>
+                        <th class="text-center">
+                            Giá trị đơn hàng
+                        </th>
+                        <th class="text-center">
+                            Thời gian đặt hàng
+                        </th>
+                        <th class="text-center">
+                            Tên khách hàng
+                        </th>
+                        <th class="text-center">
+                            Số điện thoại
+                        </th>
+                        <th class="text-center">
+                            Địa chỉ
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr v-for="item in orderList">
+                        <td class="text-center">
+                            <a @click="getOrderDetail(item)">
+                                {{item.order_id}}
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            {{item.status}}
+                        </td>
+                        <td class="text-center">
+                            {{item.totalPrice}}
+                        </td>
+                        <td class="text-center">
+                            {{item.createdAt}}
+                        </td>
+                        <td class="text-center">
+                            {{item.customerName}}
+                        </td>
+                        <td class="text-center">
+                            {{item.customerPhone}}
+                        </td>
+                        <td class="text-center">
+                            {{item.customerAddress}}
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+    <div class="controls-below-table">
+        <div class="table-records-info">
+        </div>
+        <div class="table-records-pages">
+            <ul>
+                <li>
+                    <a @click="previous()">Previous</a>
+                </li>
+                <li>
+                    <a @click="next()">Next</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

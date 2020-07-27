@@ -1,0 +1,61 @@
+.dangnhap-botup {
+    width: 100%;
+    height: 35px;
+    font-size: 15px;
+    background-color: #6c757d;
+    color: white;
+    border-color: #6c757d;
+}
+
+.dangnhap-botup {
+    &:hover {
+		background: #e82716;
+	}
+}
+.btn-dangnhap {
+    width: 100%;
+    height: 35px;
+    font-size: 15px;
+}
+
+.dangnhap-facebook {
+    width: 100%; 
+    height:35px; 
+    font-size: 15px; 
+    background-color: #3a5b9b; 
+    color: white !important;
+}
+.img-facebook {
+  width: 34px; 
+  height:34px; 
+  position: absolute;
+} 
+.information {
+    margin-top: 100px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .well {
+    background-color: rgb(191, 238, 229);
+    margin: auto;
+    padding: 50px 50px;
+    ;
+    border-radius: 20px;
+    /* display:inline-block; */
+  }
+  .login {
+    width: 200px;
+    margin: auto;
+  }
+  .list-item:first-child {
+    margin: 0;
+  }
+  .list-item {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+  }
+  .button {
+    margin: auto;
+  }

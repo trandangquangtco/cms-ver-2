@@ -1,0 +1,139 @@
+<div class="content-i">
+     <!-- Start Menu -->
+     <div class="os-tabs-w mx-4">
+        <div class="os-tabs-controls">
+            <ul class="nav nav-tabs upper">
+                <li class="nav-item">
+                    <a aria-expanded="false" class="nav-link " href="#/shop-list"> Danh sách shop</a>
+                </li>
+                <li class="nav-item">
+                    <a aria-expanded="false" class="nav-link" href="#/create-shop"> Tạo mới shop </a>
+                </li>
+                <li class="nav-item">
+                    <router-link aria-expanded="true" class="nav-link" :to="{path: '/shop-detail', query: {id: $route.query.id, page: 1} }" >Sản phẩm của shop</router-link>
+                </li>
+                <li class="nav-item">
+                    <a aria-expanded="true" class="nav-link active" data-toggle="tab" href="#">Danh mục sản phẩm</a>
+                </li>
+                <li class="nav-item">
+                    <router-link aria-expanded="true" class="nav-link"
+                        :to="{path: '/shop-table', query: {id: $route.query.id} }">Danh sách bàn
+                    </router-link>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- End Menu -->
+
+    <!-- Tạo mới danh mục -->
+    <div aria-labelledby="exampleModalLabel" class="modal fade show" style="padding-right: 16px; display: block;" v-if="modal_create === true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tạo danh mục mới</h5>
+                    <button aria-label="Close" class="close" @click="modal_create = false">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="">Nhập tên danh mục</label>
+                            <input class="form-control" placeholder="Category Name" type="text" v-model="category_name">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer buttons-on-left">
+                    <button class="btn btn-success" @click="createNewCategory()"> Xác nhận </button>
+                    <button class="btn btn-link" @click="modal_create = false"> Hủy </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upate danh mục  -->
+    <div aria-labelledby="exampleModalLabel" class="modal fade show" style="padding-right: 16px; display: block;" v-if="modal_update === true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cập nhập tên danh mục</h5>
+                    <button aria-label="Close" class="close" @click="modal_update = false">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="">Nhập tên danh mục</label>
+                            <input class="form-control" placeholder="Category Name" type="text" v-model="category_name_update">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer buttons-on-left">
+                    <button class="btn btn-success" @click="updateCategory()"> Xác nhận </button>
+                    <button class="btn btn-link" @click="modal_update = false"> Hủy </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-box">
+        <div class="element-wrapper">
+            <div class="element-box-tp">
+                <div class="element-box-tp">
+                    <div class="controls-above-table">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5 class="form-header">Danh mục sản phẩm của shop</h5>
+                            </div>
+                            <div class="col-sm-6 text-right pt-02" style="color: white;">
+                                <a class="btn btn-success" @click="modal_create = true">Tạo danh mục mới</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-lg table-v2 table-striped">
+                            <thead>
+                                <tr>
+                                    <td class="text-center">Tên danh mục</td>
+                                    <td class="text-center">Thời gian tạo</td>
+                                    <td class="text-center">Thời gian cập nhập</td>
+                                    <td class="text-center">Hành động</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in category_list">
+                                    <td class="text-center">{{item.categoryName}}</td>
+                                    <td class="text-center">{{item.createdAt}}</td>
+                                    <td class="text-center">{{item.updatedAt}}</td>
+                                    <td class="text-center">
+                                    <a @click="isShowCategoryUpdate(item)" style="margin-right: 15px;" data-toggle="tooltip"
+                                    data-placement="top" title="Chỉnh sửa danh mục"><i
+                                        class="os-icon os-icon-ui-49"></i>
+                                    </a>
+                                    <a @click="removeCategory(item.id)" style="color: red;" data-toggle="tooltip"
+                                    data-placement="top" title="Xóa danh mục"><i class="os-icon os-icon-ui-15"></i>
+                                    </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- <div class="controls-below-table">
+                        <div class="table-records-info">Showing records 1 - 5</div>
+                        <div class="table-records-pages">
+                            <ul>
+                                <li><a href="#">Previous</a></li>
+                                <li><a class="current" href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">Next</a></li>
+                            </ul>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

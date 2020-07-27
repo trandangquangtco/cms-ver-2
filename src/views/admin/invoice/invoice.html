@@ -1,0 +1,232 @@
+<div class="content-i">
+    <div class="content-box">
+    <!-- Bắt đầu tạo code mới -->
+    <div class="content-box">
+            <div class="row">
+                <div class="col-sm-8" style="margin: auto;">
+                    <div class="element-wrapper">
+                        <div class="element-box">
+                            <!--Form-->
+                            <form id="formValidate" method="post" action="/create_new_code" data-remote="true"
+                                html="{:multipart=>true}" accept-charset="UTF-8">
+                                <div class="element-info">
+                                    <div class="element-info-with-icon">
+                                        <div class="element-info-text">
+                                            <h5 class="element-inner-header">
+                                                Create New Code Game
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for=""><b>Tên khách hàng</b></label>
+                                            <input class="form-control" placeholder="Tên khách hàng" required type="text" v-model="newInvoice.customerName">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for=""><b>Số điện thoại</b></label>
+                                            <input class="form-control" placeholder="Số điện thoại" type="text" v-model="newInvoice.customerTel">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for=""><b>Email</b></label>
+                                            <input class="form-control"placeholder="Email" v-model="newInvoice.customerEmail">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                        <div class="col-sm-12">
+                                            <label > <b>Chọn gói</b> </label>
+                                        </div>
+                                    <div class="col-sm-6">
+                                        
+                                        <div class="inputGroup">
+                                            <input id="radio1" name="radio" type="radio" value="300" v-model="newInvoice.type"/>
+                                            <label for="radio1">300 k</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="inputGroup">
+                                            <input id="radio2" name="radio" type="radio" value="450" v-model="newInvoice.type"/>
+                                            <label for="radio2">450 k</label>
+                                        </div>                                    
+                                    </div>
+                                   
+                                </div>
+                                <div class="form-group">
+                                    <label for=""><b>Ghi chú</b></label>
+                                    <textarea class="form-control" placeholder="Ghi chú" v-model="newInvoice.note"  type="text"> </textarea>
+                                </div>
+                                
+                                <button class="btn btn-success" @click = "createInvoice"> Create </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>    
+
+    <!-- Kết thúc tạo game mới -->
+
+    <!-- Bắt đầu chi tiết  -->
+    <div class="modal-invoice" v-if = "close === true">
+        <div class="content-box">
+                <div class="element-wrapper">
+                    <button type="button" class="close" aria-label="Close" @click = "close = false">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="element-box">
+                        <div class="image-invoice">
+                            <img src="https://botup.io/images/logo/logo.png" alt="">
+                        </div>
+                        <h3 style="text-align: center;">BOTUP</h3>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5>Thông tin khách hàng</h5>
+                                <p>Name: {{invoice.customerName}}</p>
+                                <p>Phone: {{invoice.customerTel}}</p>
+                                <p>Email: {{invoice.customerEmail}}</p>
+                                <p>Note {{invoice.note}}</p>
+                                <p>Pagekage: {{invoice.type}}</p>
+                            </div>
+                            <div class="col-sm-6 company-infor">
+                                <h5>Thông tin công ty</h5>
+                                <p>Name: BotUp</p>
+                                <p>Address: A4, BT1, ngõ 214 Nguyễn Xiển</p>
+                                <p>Website: <a href=""> https://botup.io/</a></p>
+                            </div>
+                        </div>
+                        <div class="code">
+                            <table class="table table-striped">
+                                <tr v-for="code in invoice.code">
+                                    <td><b>Code</b></td>
+                                    <td><b>{{code}}</b></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <!-- Kết thúc chi tiết  -->
+    
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="controls-above-table">
+                <form class="form-inline justify-content-sm-end">
+                    <input class="form-control form-control-sm rounded bright" placeholder="Tìm kiếm" v-model ="search" type="text">
+                    <button class="form-control form-control-sm rounded bright" @click = "searchForm">Tìm kiếm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- bắt đầu danh sách code -->
+    <div class="element-box">
+        <h4 style="text-align: center;">Danh sách hóa đơn</h4>
+        <div class="table-responsive">
+            <!--------------------
+                START - Basic Table
+                -------------------->
+            <table class="table table-lightborder">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            #
+                        </th>
+                        <th class="text-center">
+                                ID hóa đơn
+                        </th>
+                        <th class="text-center">
+                            Tên khách hàng
+                        </th>
+                        <th class="text-center">
+                            Số điện thoại
+                        </th>
+                        <th class="text-center">
+                            Địa chỉ email
+                        </th>
+                        <th class="text-center">
+                            Ghi chú
+                        </th>
+                        <th class="text-center">
+                            Gói dịch vụ
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr v-for = "(item,index) in listInvoice">
+                        <td>{{index+1}}</td>
+                        <td>
+                            <a @click = "invoiceDetail(item)" class="pointer link">
+                                {{item.id}}
+                            </a>
+                        </td>
+                        <td class="text-center">
+                                {{item.customerName}}
+                        </td>
+                        <td class="text-center">
+                                {{item.customerTel}}
+                        </td>
+                        <td class="text-center">
+                                {{item.customerEmail}}
+                        </td>
+                        <td class="text-center">
+                                {{item.note}}
+                        </td>
+                        <td class="text-center">
+                                {{item.type}}
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <!--------------------
+                END - Basic Table
+                -------------------->
+        </div>
+    </div>
+
+     <!-- Bắt đầu phân trang -->
+     <div class="controls-below-table">
+            <div class="table-records-info">
+    
+            </div>
+            <div class="row" >
+                <div class="col-sm-12">
+                    <div class="controls-below-table">
+                        <div class="table-records-pages">
+                            <ul class="nav" >
+                                <li>
+                                    <a class="pointer" @click="dau"> Đầu</a>
+                                </li>
+                                <li>
+                                    <a class="pointer" @click="pre"> << </a>
+                                </li>
+            
+                                <li  v-for= "i in page"> <a v-if ="i === current" class="pointer activep" @click = "getInvoice(i)">{{i}}</a> <a v-else class="pointer" @click = "getInvoice(i)">{{i}}</a> </li>
+                                <li>
+                                    <a class="pointer" @click = "next" > >> </a>
+                                </li>
+                                <li>
+                                        <a class="pointer" @click="cuoi"> Cuối</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Kết thúc phân trang -->
+     <!-- kết thúc danh sách code game -->
+</div>
+   
+       
+</div>

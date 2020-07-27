@@ -1,0 +1,226 @@
+<div class="content-i">
+    <div class="content-box">
+
+        <!-- Start Menu -->
+        <div class="os-tabs-w mx-4">
+            <div class="os-tabs-controls">
+                <ul class="nav nav-tabs upper">
+                    <li class="nav-item">
+                        <a aria-expanded="false" class="nav-link " href="#/shop-list"> Danh sách shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a aria-expanded="false" class="nav-link" href="#/create-shop"> Tạo mới shop </a>
+                    </li>
+                    <li class="nav-item">
+                        <a aria-expanded="true" class="nav-link active" data-toggle="tab" href="#">Sản phẩm của shop
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <router-link aria-expanded="false" class="nav-link" :to="{path: 'shop-category', query: {id: $route.query.id}}"> Quản lý danh mục </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link aria-expanded="true" class="nav-link"
+                            :to="{path: '/shop-table', query: {id: $route.query.id} }">Danh sách bàn
+                        </router-link>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- End Menu -->
+
+        <!-- Modal chọn cột sản phẩm -->
+        <div class="w3-container">
+            <div v-show="isShowModal" class="display-block w3-modal">
+                <div class="w3-modal-content">
+                    <div class="w3-container modal-limit">
+                        <span @click="isShowModal = false" class="w3-button w3-display-topright">&times;</span>
+                        <h4 class="text-center">Chọn dữ liệu đầu vào tương thích</h4>
+                        <div class="table-responsive">
+                            <table class="table table-lightborder">
+                                <tbody>
+                                    <tr v-for="itemCMS in listKeyCMS">
+                                        <td class="text-center">
+                                            {{itemCMS.text}}
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-group">
+                                                <select class="form-control" v-model="itemCMS.value">
+                                                    <option v-for="item in listTitle" v-bind:value="item">{{item}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button @click="mapsKeyCMS()"
+                                class="btn btn-success modal-btn">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End modal chọn cột sản phẩm -->
+
+        <!-- Modal hiện chi tiết sản phẩm -->
+        <div class="modal-invoice" v-if="close === true">
+            <div class="content-box modal-info modal-scroll">
+                <div class="element-wrapper">
+                    <button type="button" class="close" aria-label="Close" @click="close = false">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="element-box">
+                        <h3 style="text-align: center; font-weight: bold;">CHI TIẾT SẢN PHẨM</h3>
+                        <div class="row">
+                            <div class="col-6">
+                                <img v-bind:src="productItem.productPicture" width="300">
+                                <div class="row">
+                                    <div class="col-3" v-for="item in productItem.productImages">
+                                        <img v-bind:src="item" width="50px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 product-details">
+                                <p>Mã sản phẩm: {{productItem.productID}}</p>
+                                <p>Tên sản phẩm: {{productItem.productName}}</p>
+                                <p>Giá sản phẩm: {{productItem.productPrice}} đ</p>
+                                <p>Số lượng sản phẩm: {{productItem.productQuantity}}</p>
+                                <p>Mô tả sản phẩm: {{productItem.productDescription}}</p>
+                                <p>Giá gốc: {{productItem.cost}}</p>
+                                <p>Discount: {{productItem.discount}} %</p>
+                                <p>Đã bán: {{productItem.sold}}</p>
+                                <p>
+                                    Màu sắc: <span v-for="item in productItem.productColors"> {{item}}, </span> 
+                                </p>
+                                <p>
+                                    Size: <span v-for="item in productItem.productSizes"> {{item}}, </span>
+                                </p>
+                                <p>
+                                    Thông tin khác: <span v-for="item in productItem.otherInfor"> {{item}}, </span>
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End modal hiện chi tiết sản phẩm -->
+
+        <h5 class="text-center" style="color: #009999;">ShopID: {{shopID}}</h5>
+
+        <!-- Bảng sản phẩm -->
+
+        <div class="element-box">
+            <div class="row">
+                <div class="col-4">
+                    <button type="button" class="btn btn-success" @click="getOrderList()">
+                        <i class="os-icon os-icon-file-text padding-icon"></i>
+                        Danh sách đơn hàng
+                    </button>
+                </div>
+                <div class="col-4 text-center">
+                    <div class="form-group">
+                        <select class="form-control" v-model="category_filter" @change="filterByCategoryName(category_filter)">
+                            <option v-for="item in categoryList" :value="item.categoryName">{{item.categoryName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="upload-btn-wrapper" style="margin-left: 15px;">
+                        <a class="btn btn-success" href="https://my.botup.io/api/files/561d62b7-9d33-4a37-97a0-7c17f87a5158.xlsx" download>
+                            <i class="os-icon os-icon-file-text padding-icon"></i>
+                            Tải file mẫu
+                        </a>
+                    </div>
+                    <div class="upload-btn-wrapper">
+                        <button class="btn btn-success">
+                            <i class="os-icon os-icon-file-text padding-icon"></i>
+                            Upload file
+                        </button>
+                        <input type="file" accept=".xlsx, .xls, .csv" @change="previewFiles" />
+                    </div>
+                </div>
+            </div>
+            <h4 style="text-align: center;">Danh sách sản phẩm</h4>
+            <div class="table-responsive">
+                <table class="table table-lightborder">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                Mã sản phẩm
+                            </th>
+                            <th class="text-center">
+                                Tên sản phẩm
+                            </th>
+                            <th class="text-center">
+                                Giá sản phẩm
+                            </th>
+                            <th class="text-center">
+                                Số lượng sản phẩm
+                            </th>
+                            <th class="text-center">
+                                Hình ảnh sản phẩm
+                            </th>
+                            <th class="text-center">
+                                Danh mục sản phẩm
+                            </th>
+                            <th class="text-center">
+                                Hành động
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in listProduct">
+                            <td class="text-center">
+                                <p>{{item.productID}}</p>
+                            </td>
+                            <td class="text-center">
+                                <a @click="getProductDetail(item)">
+                                    <p>{{item.productName}}</p>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <p>{{item.productPrice}}</p>
+                            </td>
+                            <td class="text-center">
+                                <p>{{item.productQuantity}}</p>
+                            </td>
+                            <td class="text-center">
+                                <div class="zoom">
+                                    <img v-bind:src="item.productPicture" alt="" width="50">
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <p v-if="item && item.categoryName">{{item.categoryName}}</p>
+                            </td>
+                            <td class="text-center" style="font-size: 20px;">
+                                <a @click="getProductInfor(item.id)" style="margin-right: 15px;" data-toggle="tooltip"
+                                    data-placement="top" title="Chỉnh sửa sản phẩm"><i
+                                        class="os-icon os-icon-ui-49"></i></a>
+                                <a @click="removeProduct(item.id)" style="color: red;" data-toggle="tooltip"
+                                    data-placement="top" title="Xóa sản phẩm"><i class="os-icon os-icon-ui-15"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- End bảng sản phẩm -->
+        <div class="controls-below-table">
+            <div class="table-records-info">
+            </div>
+            <div class="table-records-pages">
+                <ul>
+                    <li>
+                        <a @click="previousPage()">Previous</a>
+                    </li>
+                    <li>
+                        <a @click="nextPage()">Next</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>

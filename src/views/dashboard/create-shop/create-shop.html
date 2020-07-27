@@ -1,0 +1,83 @@
+<div class="content-i">
+    <div class="content-box">
+        <!--START - Control panel above projects-->
+        <div class="os-tabs-w mx-4">
+            <div class="os-tabs-controls">
+                <ul class="nav nav-tabs upper">
+                    <li class="nav-item">
+                        <a aria-expanded="true" class="nav-link" href="#/shop-list"> Danh sách shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a aria-expanded="false" class="nav-link active"> Tạo mới shop </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--END - Control panel above projects-->
+
+        <!-- Create shop -->
+        <div class="content-box">
+            <div class="row">
+                <div class="col-sm-7" style="margin: auto;">
+                    <div class="element-wrapper">
+                        <div class="element-box">
+                            <!--Form-->
+                            <div>
+                                <div class="element-info">
+                                    <div class="element-info-with-icon">
+                                        <div class="element-info-text">
+                                            <h5 class="element-inner-header">
+                                                Tạo mới cửa hàng
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Tên cửa hàng</label><input class="form-control"
+                                        placeholder="Shop's Name" type="text" name="name" id="name"
+                                        v-model="shop.shopName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Mô tả cửa hàng</label><input class="form-control"
+                                        placeholder="Shop's Description" type="text" name="description" id="description"
+                                        v-model="shop.shopDescription">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Địa chỉ cửa hàng</label><input class="form-control"
+                                        placeholder="Shop's Address" type="text" name="address" id="address"
+                                        v-model="shop.shopAddress">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">URL SHOP</label><input class="form-control"
+                                        placeholder="Shop's URL" type="text" name="address" id="address"
+                                        v-model="shop.shopUrl">
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 pl-0">
+                                        <div class="form-group">
+                                            <label for="">Số điện thoại</label><input class="form-control"
+                                                placeholder="Phone Number" type="text" name="address" id="address"
+                                                v-model="shop.shopPhone">
+                                        </div>
+                                    </div>
+                                    <div class="col-6 pr-0">
+                                        <div class="form-group">
+                                            <label for="">Email</label><input class="form-control" placeholder="Email"
+                                                type="text" name="email" id="email" v-model="shop.shopEmail">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="buttons-w">
+
+                                    <button class="btn btn-default btn-register" @click="createShop()"
+                                        style="width: 150px; height: 40px;; margin:auto; text-align: center; font-size: 15px; background-color: #047bf8; color: white; cursor: pointer;">Tạo mới Shop</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Create Game -->
+    </div>
+</div>

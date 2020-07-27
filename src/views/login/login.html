@@ -1,0 +1,92 @@
+<div class="auth-wrapper">
+    <div class="all-wrapper menu-side with-pattern">
+        <div class="auth-box-w">
+            <div class="logo-w">
+                <a href="/"><img alt="" src="/img/logo.png" style="width: 100px; height:100px;"></a>
+            </div>
+            <!-- <router-view></router-view> -->
+            <!-- start dang nhap bang botup -->
+
+            <div v-if= "loginByBotup === 1" >
+                <h4 class="auth-header an" id = "auth-header">
+                         Đăng nhập bằng Botup <!-- {{$store.state.test}} -->
+                </h4>
+                <!-- <button @click="$store.commit('changeTest', 'gia tri moi')">test</button> -->
+                
+                <form>
+                    <div class="form-group">
+                        <div v-if = "errorMessage" class="alert alert-warning" role="alert">
+                                {{errorMessage}}
+                        </div>
+                    </div>
+            
+                    <div class="form-group">
+                        <label v-bind:style="{color: colorEmail}" >Email </label>
+                        <input class="form-control" placeholder="Nhập vào email" type="text"  v-model="email" v-bind:style="{borderColor: colorEmail}">
+                        <div class="pre-icon os-icon os-icon-mail" v-bind:style="{color: colorEmail}" ></div>
+                    </div>
+                    <div class="form-group">
+                        <label v-bind:style="{color: colorPassWordBotup}" >Mật khẩu</label>
+                        <input class="form-control" placeholder="Nhập vào tên mật khẩu" type="password" v-model = "passwordBotup" v-bind:style="{borderColor: colorPassWordBotup}">
+                        <div class="pre-icon os-icon os-icon-fingerprint" v-bind:style="{color: colorPassWordBotup}"></div>
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                        <div class="buttons-w">
+                            <button class="btn btn-primary dangnhap-botup" @click="loginBotup"> Đăng nhập bằng botup</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                            <img src="/img/logo-facebook.png" class="img-facebook"/>
+                            <a class="btn btn-default dangnhap-facebook" @click = "loginFacbook" >Đăng nhập với facebook</a>
+                           
+                    </div>
+            
+                    <!-- <div class="buttons-w">
+                        <a @click = "loginByBotup = 0" class="next-dangnhap pointer link"> Đăng nhập bằng tài khoản cms</a>          
+                    </div> -->
+                    <div class="buttons-w">
+                        <a @click = "loginByBotup = 0" class="next-dangnhap pointer link">  Đăng nhập bằng tài khoản nhân viên</a>          
+                    </div>
+                </form>
+              
+            
+            </div>
+            <!-- end  dang nhap bang botup-->
+
+            <!-- start login bang cms -->
+            <div v-else >
+                <h4 class="auth-header ">
+                    Tài khoản nhân viên 
+                </h4>
+
+                <form>
+                    <div class="form-group">
+                        <label v-bind:style="{color: colorUsername}">Tên đăng nhập *</label>
+                        <input class="form-control" placeholder="Nhập vào tên đăng nhập" type="text"  v-model="staff_username"  v-bind:style="{borderColor: colorUsername}">
+                        <div class="pre-icon os-icon os-icon-user-male-circle" v-bind:style="{color: colorUsername}" ></div>
+                    
+                    </div>
+                    <div class="form-group">
+                        <label v-bind:style="{color: colorPassWordCms}">Mật khẩu *</label>
+                        <input class="form-control" placeholder="Nhập vào mật khẩu" type="password" v-model = "staff_password" v-bind:style="{borderColor: colorPassWordCms}">
+                        <div class="pre-icon os-icon os-icon-fingerprint" v-bind:style="{color: colorPassWordCms}"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="buttons-w">
+                            <button class="btn btn-primary btn-dangnhap"  @click="staff_login()" >Đăng nhập </button>
+                        </div>
+                    </div>
+                    <div class="buttons-w">
+                        <a @click = "loginByBotup = 1" class="next-dangnhap pointer link">  Đăng nhập bằng tài khoản botup</a>          
+                    </div>
+                </form>
+            </div>
+            <!-- end login bang cms -->
+        </div>
+    </div> 
+
+       <Loader v-if = "this.$store.state.$loading === true "/>
+</div>

@@ -1,0 +1,139 @@
+ul {
+    li {
+        margin-bottom: 0px !important;
+        a {
+          
+            border: none !important;
+            
+            background-color: #f2f4f8 !important;
+        }
+    }
+}
+
+th{
+  font-size: 13px !important;
+}
+
+h4{
+  padding: 15px;
+}
+
+tr{
+  td{
+    a{
+      color: blue !important;
+      cursor: pointer;
+    }
+    p{
+      margin-top: 18px;
+      font-size: 16px;
+    }
+  }
+}
+
+.zoom{
+  transition: transform .2s; /* Animation */
+  margin: 0 auto;
+  :hover{
+    transform: scale(4); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  }
+}
+
+.modal-btn {
+  margin-bottom: 10px;
+  margin-left: 45%;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  float: right;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.display-block {
+  display: block;
+}
+.element-wrapper {
+  max-width: 800px;
+  margin: auto;
+}
+.image-invoice {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  img {
+      width: 50px;
+  }
+  
+}
+.company-infor {
+  text-align: right;
+}
+.code {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  table {
+      border: none !important;
+  }
+}
+.modal-scroll{
+  max-height: 600px;
+  overflow: auto;
+}
+
+.content-box {
+  margin-top: 50px !important;
+}
+.modal-invoice {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  background: #0000005e;
+}
+.close {
+  margin-right: 10px;
+}
+.element-box {
+  margin: 5px;
+}
+.product-details{
+  p{
+    font-size: 20px;
+    margin-top: 10px;
+  }
+}
+
+.table-records-pages {
+  font-size: 18px;
+  ul{
+    li{
+      a{
+        color: blue;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.padding-icon{
+  padding-bottom: 3px;
+}
+.modal-limit {
+  margin-top: -85px;
+  max-height: 650px;
+  overflow: auto;
+}
