@@ -21,7 +21,7 @@
     "vue-sweetalert2": "^3.0.1",
     "vue-toasted": "^1.1.27",
     "vuex": "^3.0.1",
-    "xlsx": "^0.15.3"
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.0.0",
